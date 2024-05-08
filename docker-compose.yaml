@@ -31,6 +31,15 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.astro.rule=PathPrefix(`/astro`)"
 
+  asp:
+    image: ham-demo/asp
+    build:
+      context: .
+      dockerfile: ./app-asp/Dockerfile
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.asp.rule=PathPrefix(`/asp`)"
+
   assets:
     image: pierrezemb/gostatic
     volumes:

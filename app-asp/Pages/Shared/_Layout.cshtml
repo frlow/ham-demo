@@ -1,0 +1,29 @@
+﻿@using System.Reflection
+@{
+    var getResource = (string resourceName) =>
+    {
+        using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+        using (StreamReader reader = new StreamReader(stream))
+            return reader.ReadToEnd();
+    };
+    var head = getResource("asp.blocks.head.html");
+    var top = getResource("asp.blocks.top.html");
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewData["Title"] - asp</title>
+    @Html.Raw(head)
+</head>
+<body hx-boost="true">
+@Html.Raw(top)
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
