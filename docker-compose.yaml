@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  traefik:
+    image: traefik
+    ports:
+      - "8080:8080"
+      - "3000:80"
+    command:
+      --api.insecure=true
+      --providers.docker
+      --providers.docker.exposedbydefault=false
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  welcome:
+    image: ham-demo/welcome
+    build:
+      context: .
+      dockerfile: ./app-welcome/Dockerfile
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.welcome.rule=PathPrefix(`/`)"
+
+  assets:
+    image: pierrezemb/gostatic
+    volumes:
+      - ./common/public:/srv/http
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.assets.rule=PathPrefix(`/assets`)"
+      - "traefik.http.services.assets.loadbalancer.server.port=8043"
+      - "traefik.http.middlewares.assets-stripprefix.stripprefix.prefixes=/assets"
+      - "traefik.http.routers.assets.middlewares=assets-stripprefix@docker"

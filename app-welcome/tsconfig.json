@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "strict": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "jsx": "react-jsx",
+    "jsxImportSource": "@kitajs/html",
+    "moduleResolution": "Node",
+    "plugins": [
+      {
+        "name": "@kitajs/ts-html-plugin"
+      }
+    ],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  }
+}
