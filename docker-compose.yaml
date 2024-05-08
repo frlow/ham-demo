@@ -21,6 +21,16 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.welcome.rule=PathPrefix(`/`)"
 
+
+  astro:
+    image: ham-demo/astro
+    build:
+      context: .
+      dockerfile: ./app-astro/Dockerfile
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.astro.rule=PathPrefix(`/astro`)"
+
   assets:
     image: pierrezemb/gostatic
     volumes:
@@ -29,5 +39,3 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.assets.rule=PathPrefix(`/assets`)"
       - "traefik.http.services.assets.loadbalancer.server.port=8043"
-      - "traefik.http.middlewares.assets-stripprefix.stripprefix.prefixes=/assets"
-      - "traefik.http.routers.assets.middlewares=assets-stripprefix@docker"

@@ -30,7 +30,7 @@ console.log(`Listening on: http://localhost:${port}/`)
 const server = app.listen(port)
 
 if (import.meta.hot) {
-  app.use('/assets', express.static('../common/public'))
+  app.use('/assets', express.static('../common/public/assets'))
   import.meta.hot.on('vite:beforeFullReload', () => {
     server.close()
   })

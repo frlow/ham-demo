@@ -1,0 +1,17 @@
+---
+import {blocks} from '../blocks'
+---
+
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+    <meta name="generator" content={Astro.generator}/>
+    <Fragment set:html={blocks.head}/>
+    <title>Astro</title>
+</head>
+<body hx-boost="true">
+<Fragment set:html={blocks.top}/>
+<slot></slot>
+</body>
+</html>
