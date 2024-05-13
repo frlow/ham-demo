@@ -7,6 +7,6 @@ export default defineConfig({
   output: "server",
   adapter: bun(),
   server: {
-    host: "*"
+    host: "0.0.0.0"
   }
 });
