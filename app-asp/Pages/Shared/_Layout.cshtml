@@ -18,11 +18,9 @@
 </head>
 <body hx-boost="true">
 @Html.Raw(top)
-<div class="container">
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
-</div>
+<main role="main" class="pb-3">
+    @RenderBody()
+</main>
 
 @await RenderSectionAsync("Scripts", required: false)
 </body>

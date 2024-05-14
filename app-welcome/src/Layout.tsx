@@ -1,16 +1,18 @@
-import { blocks } from './blocks'
+import {blocks} from './blocks'
 
-export const Layout = ({ children }: { children?: any }) => {
+export const Layout = ({children}: { children?: any }) => {
   return (
-    <html>
+      <html>
       <head>
         <title>Welcome!</title>
         {blocks.head}
       </head>
       <body hx-boost="true">
-        {blocks.top}
+      {blocks.top}
+      <main>
         {children || ''}
+      </main>
       </body>
-    </html>
+      </html>
   )
 }
