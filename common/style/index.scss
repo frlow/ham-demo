@@ -1,35 +1,43 @@
-body{
+body {
   font-family: "Roboto", sans-serif;
   background-color: #0d1733;
   color: white;
   margin: 0;
 }
 
-nav{
+nav {
   background-color: #1b6ec2;
   height: 3rem;
   display: flex;
   align-items: center;
 
-  ul{
+  ul {
     margin: 0;
     display: flex;
     flex-direction: row;
     gap: 1rem;
     list-style-type: none;
 
-    li{
-      a{
+    li.active {
+      border: 2px solid white;
+      border-radius: 5px;
+    }
+
+    li {
+      padding: 0.5rem;
+      border: 2px solid transparent;
+
+      a {
         color: white;
       }
 
-      a:visited{
+      a:visited {
         color: antiquewhite;
       }
     }
   }
 }
 
-main{
+main {
   margin: 1rem;
 }

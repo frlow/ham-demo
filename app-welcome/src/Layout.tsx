@@ -8,7 +8,9 @@ export const Layout = ({children}: { children?: any }) => {
         {blocks.head}
       </head>
       <body hx-boost="true">
-      {blocks.top}
+      <header x-data="{active: 'home'}">
+        {blocks.top}
+      </header>
       <main>
         {children || ''}
       </main>

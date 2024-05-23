@@ -11,7 +11,9 @@ import {blocks} from '../blocks'
     <title>Astro</title>
 </head>
 <body hx-boost="true">
+<header x-data="{active: 'astro'}">
 <Fragment set:html={blocks.top}/>
+</header>
 <main>
     <slot></slot>
 </main>
