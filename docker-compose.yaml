@@ -17,6 +17,8 @@ services:
     build:
       context: .
       dockerfile: ./app-welcome/Dockerfile
+    volumes:
+      - "./common:/common"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.welcome.rule=PathPrefix(`/`)"
@@ -27,6 +29,8 @@ services:
     build:
       context: .
       dockerfile: ./app-astro/Dockerfile
+    volumes:
+      - "./common:/common"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.astro.rule=PathPrefix(`/astro`)"
@@ -36,6 +40,8 @@ services:
     build:
       context: .
       dockerfile: ./app-asp/Dockerfile
+    volumes:
+      - "./common:/common"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.asp.rule=PathPrefix(`/asp`)"

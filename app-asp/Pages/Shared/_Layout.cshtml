@@ -1,13 +1,14 @@
-﻿@using System.Reflection
+﻿@using System.IO
+@using System.Reflection
 @{
-    var getResource = (string resourceName) =>
+    var getBlock = (string name) =>
     {
-        using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
-        using (StreamReader reader = new StreamReader(stream))
-            return reader.ReadToEnd();
+        var path = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..", "common", "blocks", name);
+        var content = File.ReadAllText(path);
+        return content;
     };
-    var head = getResource("asp.blocks.head.html");
-    var top = getResource("asp.blocks.top.html");
+    var head = getBlock("head.html");
+    var top = getBlock("top.html");
 
 }
 <!DOCTYPE html>

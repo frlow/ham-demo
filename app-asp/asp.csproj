@@ -11,6 +11,7 @@
     <EmbeddedResource Include="..\common\blocks\**\*.*">
         <Link>blocks\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </EmbeddedResource>
+    <EmbeddedResource Remove="..\common\blocks\**" />
     </ItemGroup>
 
 </Project>
