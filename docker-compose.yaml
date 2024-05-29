@@ -1,4 +1,12 @@
 version: "3.8"
+x-values:
+  labels: &labels
+    traefik.enable: "true"
+
+x-common-volume: &common-volume
+  volumes:
+    - "./common:/common"
+
 services:
   traefik:
     image: traefik
@@ -17,11 +25,10 @@ services:
     build:
       context: .
       dockerfile: ./app-welcome/Dockerfile
-    volumes:
-      - "./common:/common"
+    <<: *common-volume
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.welcome.rule=PathPrefix(`/`)"
+      traefik.http.routers.welcome.rule: "PathPrefix(`/`)"
+      <<: *labels
 
 
   astro:
@@ -29,28 +36,26 @@ services:
     build:
       context: .
       dockerfile: ./app-astro/Dockerfile
-    volumes:
-      - "./common:/common"
+    <<: *common-volume
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.astro.rule=PathPrefix(`/astro`)"
+      traefik.http.routers.astro.rule: "PathPrefix(`/astro`)"
+      <<: *labels
 
   asp:
     image: ham-demo/asp
     build:
       context: .
       dockerfile: ./app-asp/Dockerfile
-    volumes:
-      - "./common:/common"
+    <<: *common-volume
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.asp.rule=PathPrefix(`/asp`)"
+      traefik.http.routers.asp.rule: "PathPrefix(`/asp`)"
+      <<: *labels
 
   assets:
     image: pierrezemb/gostatic
     volumes:
-      - ./common/public:/srv/http
+      - "./common/public:/srv/http"
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.assets.rule=PathPrefix(`/assets`)"
-      - "traefik.http.services.assets.loadbalancer.server.port=8043"
+      traefik.http.routers.assets.rule: "PathPrefix(`/assets`)"
+      traefik.http.services.assets.loadbalancer.server.port: "8043"
+      <<: *labels
