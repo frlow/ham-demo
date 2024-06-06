@@ -6,8 +6,9 @@ export default defineConfig({
   plugins: [svelte()],
   base: './',
   build: {
+    outDir: "dist/client",
     rollupOptions: {
-      input: ['src/entry.ts', 'src/main.ts'],
+      input: ['client/entry.js', 'client/main.ts'],
       output: {
         entryFileNames: '[name].js',
       },
