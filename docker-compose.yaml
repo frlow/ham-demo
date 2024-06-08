@@ -1,4 +1,8 @@
 version: "3.8"
+
+x-common: &common
+  restart: always
+
 x-values:
   labels: &labels
     traefik.enable: "true"
@@ -9,6 +13,7 @@ x-common-volume: &common-volume
 
 services:
   traefik:
+    <<: *common
     image: traefik
     ports:
       - "8080:8080"
@@ -21,37 +26,48 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   welcome:
+    <<: [*common, *common-volume]
     image: ham-demo/welcome
     build:
       context: .
       dockerfile: ./app-welcome/Dockerfile
-    <<: *common-volume
     labels:
       traefik.http.routers.welcome.rule: "PathPrefix(`/`)"
       <<: *labels
 
 
   astro:
+    <<: [*common, *common-volume]
     image: ham-demo/astro
     build:
       context: .
       dockerfile: ./app-astro/Dockerfile
-    <<: *common-volume
     labels:
       traefik.http.routers.astro.rule: "PathPrefix(`/astro`)"
       <<: *labels
 
+  generic:
+    <<: [*common, *common-volume]
+    image: ham-demo/generic
+    build:
+      context: .
+      dockerfile: ./app-generic/Dockerfile
+    labels:
+      traefik.http.routers.generic.rule: "PathPrefix(`/_`)"
+      <<: *labels
+
   asp:
+    <<: [*common, *common-volume]
     image: ham-demo/asp
     build:
       context: .
       dockerfile: ./app-asp/Dockerfile
-    <<: *common-volume
     labels:
       traefik.http.routers.asp.rule: "PathPrefix(`/asp`)"
       <<: *labels
 
   assets:
+    <<: [*common]
     image: pierrezemb/gostatic
     volumes:
       - "./common/public:/srv/http"

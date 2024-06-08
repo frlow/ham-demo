@@ -2,8 +2,6 @@ import express from 'express'
 import fs from "node:fs";
 import path from "node:path";
 
-const dev = process.argv[2] === "dev"
-
 export const blocks = {
   get head() {
     return fs.readFileSync(path.join("..", "common", "blocks", "head.html"), 'utf8')
@@ -13,36 +11,31 @@ export const blocks = {
   }
 }
 
+const dev = process.argv[2] === "dev"
+
 const app = express()
+app.use(express.urlencoded({ extended: true }));
 if (dev) app.use('/assets', express.static('../common/public/assets'))
 app.get("/_/(:name)(/*)?", (req, res) => {
   const name = req.params.name
-  const app = JSON.parse(fs.readFileSync("apps.json", 'utf8'))[name]
-  if (!app) {
-    res.sendStatus(404)
-    return
-  }
   res.setHeader('content-type', 'text/html')
   res.send(
     `<!doctype html>
 <html>
   <head>
-    <title>${app.title}</title>
+    <title>${name}</title>
     ${blocks.head}
-    ${ dev ?  
-      `<script src="http://localhost:4321/src/entry.ts" type="module"></script>`:
-      `<script src="${app.src}" type="module"></script>`}
   </head>
   <body hx-boost="true">
   <header x-data="{active: '${name}'}">
     ${blocks.top}
   </header>
-  ${app.component}
+  <app-${name}></app-${name}>
   </body>
 </html>`,
   )
 })
 
 const port = 3300
-console.log(`Listening on: http://localhost:${port}/`)
+console.log(`Listening on: http://localhost:${port}/_/id`)
 app.listen(port)

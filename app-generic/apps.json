@@ -1,7 +1,0 @@
-{
-  "spa": {
-    "component": "<app-spa></app-spa>",
-    "title": "SPA",
-    "src": "/apps/spa/loader.js"
-  }
-}
