@@ -1,24 +1,21 @@
 import express from 'express'
-import fs from 'node:fs'
-import path from 'node:path'
-
-const head = fs.readFileSync(path.join(__dirname, "blocks", "head.html"), 'utf8')
-const top = fs.readFileSync(path.join(__dirname, "blocks", "top.html"), 'utf8')
+import {getBlocks, registerRoutes} from "./routes.js";
 
 const app = express()
 
 app.use(express.static("public"))
 
-app.get("/", (req,res)=>{
+app.get("/", async (req, res) => {
+  const blocks = await getBlocks()
   res.setHeader("content-type", "text/html")
   res.send(`<!doctype html>
 <html>
   <head>
     <title>Dev!</title>
-    ${head}
+    ${blocks.head}
   </head>
   <body hx-boost="true">
-    ${top}
+    ${blocks.top}
     <main>
         <h1>CONTENT</h1>
     </main>
@@ -26,6 +23,12 @@ app.get("/", (req,res)=>{
 </html>`)
 })
 
+registerRoutes(app)
+
 const port = 3200
 console.log(`Dev server running on http://localhost:${port}`)
-app.listen(port)
+const server = app.listen(port)
+import.meta.hot.on("vite:beforeFullReload", () => {
+  console.log("full reload")
+  server.close()
+});

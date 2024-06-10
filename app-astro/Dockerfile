@@ -1,6 +1,5 @@
 FROM oven/bun:alpine as build
-COPY app-astro /app
-COPY common /common
+COPY . /app/
 WORKDIR /app
 RUN bun i
 RUN bun run build

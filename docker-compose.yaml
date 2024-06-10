@@ -2,14 +2,13 @@ version: "3.8"
 
 x-common: &common
   restart: always
+  environment:
+    BLOCKS_HOST: "http://common:3200/blocks"
 
 x-values:
   labels: &labels
     traefik.enable: "true"
 
-x-common-volume: &common-volume
-  volumes:
-    - "./common:/common"
 
 services:
   traefik:
@@ -26,38 +25,29 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   welcome:
-    <<: [*common, *common-volume]
+    <<: *common
     image: ham-demo/welcome
-    build:
-      context: .
-      dockerfile: ./app-welcome/Dockerfile
+    build: ./app-welcome
     labels:
       traefik.http.routers.welcome.rule: "PathPrefix(`/`)"
       <<: *labels
 
 
   astro:
-    <<: [*common, *common-volume]
+    <<: *common
     image: ham-demo/astro
-    build:
-      context: .
-      dockerfile: ./app-astro/Dockerfile
+    build: ./app-astro
     labels:
       traefik.http.routers.astro.rule: "PathPrefix(`/astro`)"
       <<: *labels
 
-  asp:
-    <<: [*common, *common-volume]
-    image: ham-demo/asp
-    build:
-      context: .
-      dockerfile: ./app-asp/Dockerfile
-    labels:
-      traefik.http.routers.asp.rule: "PathPrefix(`/asp`)"
-      <<: *labels
+  common:
+    <<: *common
+    image: ham-demo/blocks
+    build: ./common
 
   assets:
-    <<: [*common]
+    <<: *common
     image: pierrezemb/gostatic
     volumes:
       - "./common/public:/srv/http"

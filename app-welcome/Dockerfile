@@ -1,6 +1,5 @@
 FROM oven/bun:alpine as build
-COPY app-welcome /app
-COPY common /common
+COPY . /app/
 WORKDIR /app
 RUN bun i
 RUN bun run build
