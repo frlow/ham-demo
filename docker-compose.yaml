@@ -46,16 +46,6 @@ services:
       traefik.http.routers.astro.rule: "PathPrefix(`/astro`)"
       <<: *labels
 
-  generic:
-    <<: [*common, *common-volume]
-    image: ham-demo/generic
-    build:
-      context: .
-      dockerfile: ./app-generic/Dockerfile
-    labels:
-      traefik.http.routers.generic.rule: "PathPrefix(`/_`)"
-      <<: *labels
-
   asp:
     <<: [*common, *common-volume]
     image: ham-demo/asp
